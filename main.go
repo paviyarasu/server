@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"github.com/golang/go/src/pkg/fmt"
 	"net"
+	"time"
 )
 
 func main()  {
@@ -23,6 +24,12 @@ func main()  {
 }
 
 func handle(conn net.Conn)  {
+
+	err := conn.SetDeadline(time.Now().Add(time.Second * 10))
+	if err != nil {
+		fmt.Printf("Connection time out")
+		return
+	}
 
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
